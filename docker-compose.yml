@@ -10,28 +10,31 @@ x-utility: &default-utility
     networks:
         - default
 
+
 services:
-        web:
-                image: nginx:1.17.8
-                container_name: web
-                logging: *default-logging
-                volumes:
-                        - ${PWD}/nginx:/etc/nginx
-                restart: on-failure
-                ports:
-                    - "80:80"
-                stop_grace_period: 30s
-                networks:
-                    net:
-                        ipv4_address: 10.254.1.2
+        #web:
+        #        image: nginx:1.17.8
+        #        container_name: web
+        #        logging: *default-logging
+        #        volumes:
+        #                - ${PWD}/nginx:/etc/nginx
+        #        restart: on-failure
+        #        ports:
+        #            - "80:80"
+        #        stop_grace_period: 30s
+        #        networks:
+        #            net:
+        #                ipv4_address: 10.254.1.2
         bitcoin:
                 image: lncm/bitcoind:v0.20.1
                 container_name: bitcoin
+                #healthcheck:
                 logging: *default-logging
                 volumes:
-                        - ${PWD}/bitcoin:/root/.bitcoin
-                        - ${PWD}/bitcoin:/data/.bitcoin
-                        - ${PWD}/bitcoin:/data/bitcoin
+                        #- ${PWD}/bitcoin:/root/.bitcoin
+                        - /srv/bitcoind:/data/.bitcoin
+                        - ${PWD}/bitcoin/bitcoin.conf:/data/.bitcoin/bitcoin.con:ro
+                        #- ${PWD}/bitcoin:/data/bitcoin
                 restart: on-failure
                 ports:
                     - "8333:8333"
@@ -40,84 +43,86 @@ services:
                 networks:
                     net:
                         ipv4_address: 10.254.2.2
-        lnd:
-                image: lncm/lnd:v0.11.1-experimental
-                container_name: lnd
-                logging: *default-logging
-                volumes:
-                        - ${PWD}/lnd:/data/.lnd
-                        - ${PWD}/lnd:/root/.lnd
-                        - ${PWD}/bitcoin:/root/.bitcoin
-                restart: on-failure
-                ports:
-                    - "9735:9735"
-                    - "10009:10009"
-                depends_on: [ bitcoin, web ]
-                stop_grace_period: 10m30s
-                networks:
-                    net:
-                        ipv4_address: 10.254.2.3
-        invoicer:
-                image: "lncm/invoicer:v0.8.1"
-                container_name: invoicer
-                depends_on: [ bitcoin, lnd ]
-                restart: on-failure
-                stop_grace_period: 30s
-                volumes:
-                        - "${PWD}/invoicer:/root/.lncm"
-                        - "${PWD}/invoicer:/data/.lncm"
-                        - "${PWD}/invoicer:/lncm"
-                        - "${PWD}/invoicer:/data"
-                        - "${PWD}/lnd:/lnd"
-                networks:
-                    net:
-                        ipv4_address: 10.254.2.4
-        lnd-unlock:
-                image: "lncm/lnd-unlock:1.0.0"
-                container_name: lnd-unlock
-                depends_on: [ lnd ]
-                logging: *default-logging
-                restart: always
-                volumes:
-                    - "${PWD}/lnd:/lnd"
-                    - "${PWD}/secrets:/secrets"
-                environment:
-                    NETWORK: mainnet
-                    LNDHOSTNAME: lnd
-                    HOSTIPPORT: 10.254.2.3:8080
-                networks:
-                    net:
-                        ipv4_address: 10.254.2.5
-        neutrino-switcher:
-                image: "lncm/neutrino-switcher:1.0.3"
-                container_name: neutrino-switcher
-                depends_on: [ lnd, bitcoin ]
-                logging: *default-logging
-                restart: always
-                volumes:
-                    - "${PWD}/lnd:/lnd"
-                    - "${PWD}/secrets:/secrets"
-                    - "${PWD}/statuses:/statuses"
-                    - "/var/run/docker.sock:/var/run/docker.sock"
-                environment:
-                    JSONRPCURL: http://10.254.2.2:8332
-                    LND_CONTAINER_NAME: lnd
-                    SLEEPTIME: 43200
-                networks:
-                    net:
-                        ipv4_address: 10.254.2.6
-        tor:
-                image: "lncm/tor:0.4.4.5"
-                container_name: tor
-                restart: on-failure
-                logging: *default-logging
-                volumes:
-                    - "${PWD}/tor/torrc:/etc/tor/torrc"
-                    - "${PWD}/tor/data:/var/lib/tor/"
-                    - "${PWD}/tor/run:/var/run/tor/"
-                networks:
-                    net:
-                        ipv4_address: 10.254.1.3
+                cap_drop: 
+                    - ALL
+        #lnd:
+        #        image: lncm/lnd:v0.11.1-experimental
+        #        container_name: lnd
+        #        logging: *default-logging
+        #        volumes:
+        #                - ${PWD}/lnd:/data/.lnd
+        #                - ${PWD}/lnd:/root/.lnd
+        #                - ${PWD}/bitcoin:/root/.bitcoin
+        #        restart: on-failure
+        #        ports:
+        #            - "9735:9735"
+        #            - "10009:10009"
+        #        depends_on: [ bitcoin, web ]
+        #        stop_grace_period: 10m30s
+        #        networks:
+        #            net:
+        #                ipv4_address: 10.254.2.3
+        #invoicer:
+        #        image: "lncm/invoicer:v0.8.1"
+        #        container_name: invoicer
+        #        depends_on: [ bitcoin, lnd ]
+        #        restart: on-failure
+        #        stop_grace_period: 30s
+        #        volumes:
+        #                - "${PWD}/invoicer:/root/.lncm"
+        #                - "${PWD}/invoicer:/data/.lncm"
+        #                - "${PWD}/invoicer:/lncm"
+        #                - "${PWD}/invoicer:/data"
+        #                - "${PWD}/lnd:/lnd"
+        #        networks:
+        #            net:
+        #                ipv4_address: 10.254.2.4
+        #lnd-unlock:
+        #        image: "lncm/lnd-unlock:1.0.0"
+        #        container_name: lnd-unlock
+        #        depends_on: [ lnd ]
+        #        logging: *default-logging
+        #        restart: always
+        #        volumes:
+        #            - "${PWD}/lnd:/lnd"
+        #            - "${PWD}/secrets:/secrets"
+        #        environment:
+        #            NETWORK: mainnet
+        #            LNDHOSTNAME: lnd
+        #            HOSTIPPORT: 10.254.2.3:8080
+        #        networks:
+        #            net:
+        #                ipv4_address: 10.254.2.5
+        #neutrino-switcher:
+        #        image: "lncm/neutrino-switcher:1.0.3"
+        #        container_name: neutrino-switcher
+        #        depends_on: [ lnd, bitcoin ]
+        #        logging: *default-logging
+        #        restart: always
+        #        volumes:
+        #            - "${PWD}/lnd:/lnd"
+        #            - "${PWD}/secrets:/secrets"
+        #            - "${PWD}/statuses:/statuses"
+        #            - "/var/run/docker.sock:/var/run/docker.sock"
+        #        environment:
+        #            JSONRPCURL: http://10.254.2.2:8332
+        #            LND_CONTAINER_NAME: lnd
+        #            SLEEPTIME: 43200
+        #        networks:
+        #            net:
+        #                ipv4_address: 10.254.2.6
+        #tor:
+        #        image: "lncm/tor:0.4.4.5"
+        #        container_name: tor
+        #        restart: on-failure
+        #        logging: *default-logging
+        #        volumes:
+        #            - "${PWD}/tor/torrc:/etc/tor/torrc"
+        #            - "${PWD}/tor/data:/var/lib/tor/"
+        #            - "${PWD}/tor/run:/var/run/tor/"
+        #        networks:
+        #            net:
+        #                ipv4_address: 10.254.1.3
 
 networks:
     net:
