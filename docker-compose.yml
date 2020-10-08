@@ -28,12 +28,14 @@ services:
         bitcoin:
                 image: lncm/bitcoind:v0.20.1
                 container_name: bitcoin
+                command:
+                        - -conf=/run/bitcoin/bitcoin.conf
                 #healthcheck:
                 logging: *default-logging
                 volumes:
                         #- ${PWD}/bitcoin:/root/.bitcoin
                         - /srv/bitcoind:/data/.bitcoin
-                        - ${PWD}/bitcoin/bitcoin.conf:/data/.bitcoin/bitcoin.conf:ro
+                        - ${PWD}/bitcoin/bitcoin.conf:/run/bitcoin/bitcoin.conf:ro
                         #- ${PWD}/bitcoin:/data/bitcoin
                 restart: on-failure
                 ports:
