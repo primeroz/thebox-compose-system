@@ -33,7 +33,7 @@ services:
                 volumes:
                         #- ${PWD}/bitcoin:/root/.bitcoin
                         - /srv/bitcoind:/data/.bitcoin
-                        - ${PWD}/bitcoin/bitcoin.conf:/data/.bitcoin/bitcoin.con:ro
+                        - ${PWD}/bitcoin/bitcoin.conf:/data/.bitcoin/bitcoin.conf:ro
                         #- ${PWD}/bitcoin:/data/bitcoin
                 restart: on-failure
                 ports:
