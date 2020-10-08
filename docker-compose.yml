@@ -28,6 +28,7 @@ services:
         bitcoin:
                 image: lncm/bitcoind:v0.20.1
                 container_name: bitcoin
+                depends_on: [ tor ]
                 command:
                         - -conf=/run/bitcoin/bitcoin.conf
                 #healthcheck:
