@@ -93,7 +93,7 @@ services:
                     net:
                         ipv4_address: 10.254.2.7
                 volumes:
-                    - /srv/bitcoind:/data/.bitcoin:ro
+                    - /srv/bitcoind:/bitcoin-data:ro
                     - /srv/electrs:/db
         #lnd:
         #        image: lncm/lnd:v0.11.1-experimental
