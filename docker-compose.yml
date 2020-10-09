@@ -50,6 +50,7 @@ services:
                     - ALL
         electrs:
                 image: primeroz/electrs:latest
+                container_name: electrs
                 depends_on:
                     - tor
                     - bitcoin
@@ -81,9 +82,7 @@ services:
                     #- "50"
                     - --electrum-banner
                     - "Craig Wright is a Fraud"
-                    - --verbose
-                    - --verbose
-                    #- --verbose
+                    - -vv
                 cap_drop: 
                     - ALL
                 ports:
