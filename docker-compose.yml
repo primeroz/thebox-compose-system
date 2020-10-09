@@ -65,7 +65,7 @@ services:
                     - --daemon-dir
                     - /bitcoind-data
                     - --network
-                    - bitcoin
+                    - mainnet
                     - --electrum-rpc-addr
                     - 0.0.0.0:50001
                     - --http-addr
