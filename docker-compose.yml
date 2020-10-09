@@ -81,8 +81,8 @@ services:
                     #- "50"
                     - --electrum-banner
                     - "Craig Wright is a Fraud"
-                    #- --verbose
-                    #- --verbose
+                    - --verbose
+                    - --verbose
                     #- --verbose
                 cap_drop: 
                     - ALL
