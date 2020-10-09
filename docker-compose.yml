@@ -48,6 +48,54 @@ services:
                         ipv4_address: 10.254.2.2
                 cap_drop: 
                     - ALL
+        electrs:
+                image: primeroz/electrs:latest
+                depends_on:
+                    - tor
+                    - bitcoin
+                #healthcheck: 
+                entrypoint: 
+                    - /srv/electrs/bin/electrs
+                command:
+                    - --address-search
+                    - --timestamp
+                    - --db-dir
+                    - /db
+                    - --daemon-dir
+                    - /bitcoind-data
+                    - --network
+                    - bitcoin
+                    - --electrum-rpc-addr
+                    - 0.0.0.0:50001
+                    - --http-addr
+                    - 0.0.0.0:3000
+                    - --daemon-rpc-addr
+                    - bitcoin:8332
+                    - --monitoring-addr
+                    - 0.0.0.0:4224
+                    - --tor-proxy
+                    - tor:29050
+                    #- --bulk-index-threads
+                    #- "1"
+                    #- --index-batch-size
+                    #- "50"
+                    - --electrum-banner
+                    - "Craig Wright is a Fraud"
+                    #- --verbose
+                    #- --verbose
+                    #- --verbose
+                cap_drop: 
+                    - ALL
+                ports:
+                    - 3000:3000
+                    - 50001:50001
+                    - 4224:4224
+                networks:
+                    net:
+                        ipv4_address: 10.254.2.7
+                volumes:
+                    - /srv/bitcoind:/data/.bitcoin:ro
+                    - /srv/electrs:/db
         #lnd:
         #        image: lncm/lnd:v0.11.1-experimental
         #        container_name: lnd
