@@ -1,11 +1,12 @@
+---
 version: '3.8'
 x-logging: &default-logging
     driver: journald
     options:
-        tag: "{{.Name}}"
+        tag: '{{.Name}}'
 
-x-utility: &default-utility
-    image: "alpine:3.11"
+x-utility:
+    image: alpine:3.11
     logging: *default-logging
     networks:
         - default
@@ -25,73 +26,73 @@ services:
         #        networks:
         #            net:
         #                ipv4_address: 10.254.1.2
-        bitcoin:
-                image: lncm/bitcoind:v0.20.1
-                container_name: bitcoin
-                depends_on: [ tor ]
-                command:
-                        - -conf=/run/bitcoin/bitcoin.conf
+    bitcoin:
+        image: lncm/bitcoind:v0.20.1
+        container_name: bitcoin
+        depends_on: [tor]
+        command:
+            - -conf=/run/bitcoin/bitcoin.conf
                 #healthcheck:
-                logging: *default-logging
-                volumes:
+        logging: *default-logging
+        volumes:
                         #- ${PWD}/bitcoin:/root/.bitcoin
-                        - /srv/bitcoind:/data/.bitcoin
-                        - ${PWD}/bitcoin/bitcoin.conf:/run/bitcoin/bitcoin.conf:ro
+            - /srv/bitcoind:/data/.bitcoin
+            - ${PWD}/bitcoin/bitcoin.conf:/run/bitcoin/bitcoin.conf:ro
                         #- ${PWD}/bitcoin:/data/bitcoin
-                restart: on-failure
-                ports:
-                    - "8333:8333"
-                    - "8332:8332"
-                stop_grace_period: 20m30s
-                networks:
-                    net:
-                        ipv4_address: 10.254.2.2
-                cap_drop:
-                    - ALL
-        electrs:
-                image: getumbrel/electrs:v0.8.5
-                container_name: electrs
-                depends_on:
-                    - tor
-                    - bitcoin
+        restart: on-failure
+        ports:
+            - 8333:8333
+            - 8332:8332
+        stop_grace_period: 20m30s
+        networks:
+            net:
+                ipv4_address: 10.254.2.2
+        cap_drop:
+            - ALL
+    electrs:
+        image: getumbrel/electrs:v0.8.5
+        container_name: electrs
+        depends_on:
+            - tor
+            - bitcoin
                 #healthcheck:
-                entrypoint:
-                    - electrs
-                command:
-                    - --timestamp
-                    - --db-dir
-                    - /db
-                    - --daemon-dir
-                    - /bitcoin-data
-                    - --network
-                    - bitcoin
-                    - --electrum-rpc-addr
-                    - 0.0.0.0:50001
-                    - --daemon-rpc-addr
-                    - 10.254.2.2:8332
-                    - --monitoring-addr
-                    - 0.0.0.0:4224
-                    - --tor-proxy
-                    - 10.254.1.3:29050
-                    - --jsonrpc-import
-                    - --bulk-index-threads
-                    - "2"
-                    - --index-batch-size
-                    - "10"
-                    - --server-banner
-                    - "Craig Wright is a Fraud"
-                    - -vv
-                cap_drop:
-                    - ALL
-                ports:
-                    - 50001:50001
-                    - 4224:4224
-                networks:
-                    net:
-                        ipv4_address: 10.254.2.7
-                volumes:
-                    - /srv/bitcoind:/bitcoin-data:ro
-                    - /srv/electrs:/db
+        entrypoint:
+            - electrs
+        command:
+            - --timestamp
+            - --db-dir
+            - /db
+            - --daemon-dir
+            - /bitcoin-data
+            - --network
+            - bitcoin
+            - --electrum-rpc-addr
+            - 0.0.0.0:50001
+            - --daemon-rpc-addr
+            - 10.254.2.2:8332
+            - --monitoring-addr
+            - 0.0.0.0:4224
+            - --tor-proxy
+            - 10.254.1.3:29050
+            - --jsonrpc-import
+            - --bulk-index-threads
+            - '2'
+            - --index-batch-size
+            - '10'
+            - --server-banner
+            - Craig Wright is a Fraud
+            - -vv
+        cap_drop:
+            - ALL
+        ports:
+            - 50001:50001
+            - 4224:4224
+        networks:
+            net:
+                ipv4_address: 10.254.2.7
+        volumes:
+            - /srv/bitcoind:/bitcoin-data:ro
+            - /srv/electrs:/db
         #lnd:
         #        image: lncm/lnd:v0.11.1-experimental
         #        container_name: lnd
@@ -158,20 +159,20 @@ services:
         #        networks:
         #            net:
         #                ipv4_address: 10.254.2.6
-        tor:
-                image: "lncm/tor:0.4.4.5"
-                container_name: tor
-                restart: on-failure
-                logging: *default-logging
-                volumes:
-                    - "${PWD}/tor/torrc:/etc/tor/torrc"
-                    - "${PWD}/tor/data:/var/lib/tor/"
-                    - "${PWD}/tor/run:/var/run/tor/"
-                networks:
-                    net:
-                        ipv4_address: 10.254.1.3
-                cap_drop: 
-                    - ALL
+    tor:
+        image: lncm/tor:0.4.4.5
+        container_name: tor
+        restart: on-failure
+        logging: *default-logging
+        volumes:
+            - ${PWD}/tor/torrc:/etc/tor/torrc
+            - ${PWD}/tor/data:/var/lib/tor/
+            - ${PWD}/tor/run:/var/run/tor/
+        networks:
+            net:
+                ipv4_address: 10.254.1.3
+        cap_drop:
+            - ALL
 
 networks:
     net:
