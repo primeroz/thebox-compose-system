@@ -92,7 +92,7 @@ services:
                 ipv4_address: 10.254.2.7
     electrs-ssl:
         image: zazukoians/hitch:1.6.0
-        container_name: electrs
+        container_name: electrs-ssl
         depends_on:
             - tor
             - electrs
