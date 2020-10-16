@@ -90,9 +90,23 @@ services:
         networks:
             net:
                 ipv4_address: 10.254.2.7
-        volumes:
-            - /srv/bitcoind:/bitcoin-data:ro
-            - /srv/electrs:/db
+    electrs-ssl:
+        image: zazukoians/hitch:1.6.0
+        container_name: electrs
+        depends_on:
+            - tor
+            - electrs
+                #healthcheck:
+        environment:
+            HITCH_PARAMS: --backend=[10.254.2.7]:50001 --frontend=[*]:50002
+            DOMAIN: my.node.com
+        cap_drop:
+            - ALL
+        ports:
+            - 50002:50002
+        networks:
+            net:
+                ipv4_address: 10.254.2.8
         #lnd:
         #        image: lncm/lnd:v0.11.1-experimental
         #        container_name: lnd
