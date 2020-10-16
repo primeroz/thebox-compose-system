@@ -21,4 +21,3 @@ if [ $# -eq 2 ]; then
 else
 	echo "usage ${0} <pubkey> <amt>"
 fi
-

@@ -18,4 +18,3 @@ RUN adduser  --uid ${ID} \
 USER lncm
 
 VOLUME ${DIR}
-

@@ -25,4 +25,3 @@ Or if you just want to donate some money please use [**bc1qsdlppqy9mhah5ljmhcmtp
 We accept contributions of all kinds, please contact us on [Twitter](https://twitter.com/lncnx) or contact one of us directly on Wire Messenger (userid: @corv , @nolim1t, or @meeDamian)
 
 Main Repository Maintainer: [@nolim1t](https://github.com/nolim1t)
-

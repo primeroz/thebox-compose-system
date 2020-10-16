@@ -1,5 +1,5 @@
 
-# ![Thebox](https://gitlab.com/lncm/thebox-compose-system/-/raw/master/thebox-small.png "box") The Box Compose Framework 
+# ![Thebox](https://gitlab.com/lncm/thebox-compose-system/-/raw/master/thebox-small.png "box") The Box Compose Framework
 
 ## Abstract
 
