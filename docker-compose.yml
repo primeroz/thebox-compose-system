@@ -92,7 +92,7 @@ services:
             - /srv/bitcoind:/bitcoin-data:ro
             - /srv/electrs:/db
     electrs-ssl:
-        image: zazukoians/hitch:1.6.0
+        image: primeroz/hitch:1.6.1-rc0
         container_name: electrs-ssl
         depends_on:
             - tor
@@ -103,6 +103,9 @@ services:
             DOMAIN: my.node.com
         cap_drop:
             - ALL
+        cap_add:
+            - SETUID
+            - SETGID
         ports:
             - 50002:50002
         networks:
