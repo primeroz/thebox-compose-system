@@ -186,6 +186,7 @@ services:
             - ${PWD}/tor/torrc:/etc/tor/torrc
             - ${PWD}/tor/data:/var/lib/tor/
             - ${PWD}/tor/run:/var/run/tor/
+            - /srv/tor:/srv/tor
         networks:
             net:
                 ipv4_address: 10.254.1.3
