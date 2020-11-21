@@ -35,10 +35,9 @@ services:
                 #healthcheck:
         logging: *default-logging
         volumes:
-                        #- ${PWD}/bitcoin:/root/.bitcoin
             - /srv/bitcoind:/data/.bitcoin
             - ${PWD}/bitcoin/bitcoin.conf:/run/bitcoin/bitcoin.conf:ro
-                        #- ${PWD}/bitcoin:/data/bitcoin
+            - /srv/tor/run:/run/tor:ro
         restart: on-failure
         ports:
             - 8333:8333

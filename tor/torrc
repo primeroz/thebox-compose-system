@@ -13,11 +13,11 @@ Log notice stdout
 
 
 # Default Password
-HashedControlPassword 16:C171CBB3DECE55156066E90509F28E3E5FDFACFB6211701926A200E70D
+# HashedControlPassword 16:C171CBB3DECE55156066E90509F28E3E5FDFACFB6211701926A200E70D
 
-#CookieAuthFile /srv/tor/sys/control_auth_cookie
-#CookieAuthentication 1
-#CookieAuthFileGroupReadable 1
+CookieAuthFile /srv/tor/run/control.authcookie
+CookieAuthentication 1
+CookieAuthFileGroupReadable 1
 
 ## Hidden Service for BITCOIN RPC
 ## bitcoind get tor service automatically
