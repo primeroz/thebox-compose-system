@@ -117,7 +117,7 @@ services:
         volumes:
             - /srv/lnd:/data/.lnd
             - ${PWD}/lnd/lnd.conf:/data/.lnd/lnd.conf:ro
-            - /srv/bitcoind:/bitcoin-data:ro
+            - /srv/bitcoind:/srv/bitcoind:ro
         restart: on-failure
         ports:
             - "8989:8989" # Prometheus
