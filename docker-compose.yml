@@ -110,23 +110,25 @@ services:
         networks:
             net:
                 ipv4_address: 10.254.2.8
-        #lnd:
-        #        image: lncm/lnd:v0.11.1-experimental
-        #        container_name: lnd
-        #        logging: *default-logging
-        #        volumes:
-        #                - ${PWD}/lnd:/data/.lnd
-        #                - ${PWD}/lnd:/root/.lnd
-        #                - ${PWD}/bitcoin:/root/.bitcoin
-        #        restart: on-failure
-        #        ports:
-        #            - "9735:9735"
-        #            - "10009:10009"
-        #        depends_on: [ bitcoin, web ]
-        #        stop_grace_period: 10m30s
-        #        networks:
-        #            net:
-        #                ipv4_address: 10.254.2.3
+    lnd:
+        image: lncm/lnd:v0.11.1-monitoring
+        container_name: lnd
+        logging: *default-logging
+        volumes:
+            - /srv/lnd:/data/.lnd
+            - ${PWD}/lnd/lnd.conf:/data/.lnd/lnd.conf:ro
+            - /srv/bitcoind:/bitcoin-data:ro
+        restart: on-failure
+        ports:
+            - "8989:8989" # Prometheus
+            - "9735:9735" # P2P
+            - "10009:10009" # RPC
+        #depends_on: [ bitcoin, web ]
+        depends_on: [ bitcoin, tor ]
+        stop_grace_period: 10m30s
+        networks:
+            net:
+                ipv4_address: 10.254.2.3
         #invoicer:
         #        image: "lncm/invoicer:v0.8.1"
         #        container_name: invoicer
