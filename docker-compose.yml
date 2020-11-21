@@ -37,7 +37,7 @@ services:
         volumes:
             - /srv/bitcoind:/data/.bitcoin
             - ${PWD}/bitcoin/bitcoin.conf:/run/bitcoin/bitcoin.conf:ro
-            - /srv/tor/run:/run/tor:ro
+            - /srv/tor/run:/srv/tor/run:ro
         restart: on-failure
         ports:
             - 8333:8333
