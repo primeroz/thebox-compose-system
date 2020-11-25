@@ -119,7 +119,8 @@ services:
         volumes:
             - /srv/lnd:/data/.lnd
             - ${PWD}/lnd/lnd.conf:/data/.lnd/lnd.conf:ro
-            - /srv/bitcoind:/data/.bitcoin
+              #- /srv/bitcoind:/data/.bitcoin
+            - /srv/bitcoind/.cookie:/data/.bitcoin/.cookie:ro
             - ${PWD}/bitcoin/bitcoin.conf:/data/.bitcoin/bitcoin.conf:ro
             - /srv/tor:/srv/tor:ro
         restart: on-failure
