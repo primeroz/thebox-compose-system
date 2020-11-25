@@ -204,6 +204,10 @@ services:
           context: ./Dockerfiles/btc-rpc-explorer/
         container_name: explorer
         logging: *default-logging
+        depends_on:
+            - tor
+            - bitcoin
+            - electrs
         volumes:
             - /srv/bitcoind/.cookie:/data/.bitcoin/.cookie:ro
         environment:
@@ -224,6 +228,25 @@ services:
         networks:
             net:
                 ipv4_address: 10.254.2.9
+    explorer-ssl:
+        image: primeroz/hitch:1.6.1-rc0
+        container_name: explorer-ssl
+        depends_on:
+            - tor
+            - explorer
+        environment:
+            HITCH_PARAMS: --backend=[10.254.2.9]:3002 --frontend=[*]:3443
+            DOMAIN: my.node.com
+        cap_drop:
+            - ALL
+        cap_add:
+            - SETUID
+            - SETGID
+        ports:
+            - 3443:3442
+        networks:
+            net:
+                ipv4_address: 10.254.2.10
 
 networks:
     net:
