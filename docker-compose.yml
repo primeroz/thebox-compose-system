@@ -49,8 +49,10 @@ services:
         cap_drop:
             - ALL
     electrs:
-        image: getumbrel/electrs:v0.8.5
+        #image: getumbrel/electrs:v0.8.5
+        image: primeroz/electrs:v0.8.6-rc0
         container_name: electrs
+        stop_grace_period: 5m
         depends_on:
             - tor
             - bitcoin
