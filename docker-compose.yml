@@ -56,7 +56,7 @@ services:
         depends_on:
             - tor
             - bitcoin
-                #healthcheck:
+              #healthcheck: curl --fail http://10.254.2.7:4224/metrics
         entrypoint:
             - electrs
         command:
@@ -217,9 +217,9 @@ services:
             BTCEXP_BITCOIND_HOST: 10.254.2.2
             BTCEXP_BITCOIND_PORT: 8332
             BTCEXP_BITCOIND_COOKIE: /data/.bitcoin/.cookie
-            BTCEXP_ADDRESS_API: blockcypher.com
-            #BTCEXP_ADDRESS_API: electrumx
-            #BTCEXP_ELECTRUMX_SERVERS: tls://10.254.2.8:50002
+            #BTCEXP_ADDRESS_API: blockcypher.com
+            BTCEXP_ADDRESS_API: electrumx
+            BTCEXP_ELECTRUMX_SERVERS: tcp://10.254.2.7:50001
             #DEBUG: "*"
         restart: on-failure
         ports:

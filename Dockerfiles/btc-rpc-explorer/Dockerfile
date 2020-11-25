@@ -1,4 +1,4 @@
-FROM node:15-alpine as builder
+FROM node:14-alpine as builder
 
 WORKDIR /workspace
 RUN apk add --no-cache git
@@ -9,7 +9,7 @@ USER node
 
 RUN npm install
 
-FROM node:15-alpine
+FROM node:14-alpine
 WORKDIR /workspace
 USER node
 COPY --from=builder /workspace .
