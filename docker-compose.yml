@@ -198,6 +198,32 @@ services:
                 ipv4_address: 10.254.1.3
         cap_drop:
             - ALL
+    explorer:
+            #image: primeroz/btc-rpc-explorer:2.0.2-rc0
+        build:
+          context: ./Dockerfiles/btc-rpc-explorer/
+        container_name: explorer
+        logging: *default-logging
+        volumes:
+            - /srv/bitcoind/.cookie:/data/.bitcoin/.cookie:ro
+        environment:
+            BTCEXP_COIN: BTC
+            BTCEXP_HOST: 0.0.0.0
+            BTCEXP_PORT: "3002"
+            BTCEXP_BITCOIND_HOST: 10.254.2.2
+            BTCEXP_BITCOIND_PORT: 8332
+            BTCEXP_BITCOIND_COOKIE: /data/.bitcoin/.cookie
+            BTCEXP_ADDRESS_API: blockcypher.com
+            #BTCEXP_ADDRESS_API: electrumx
+            #BTCEXP_ELECTRUMX_SERVERS: tls://10.254.2.8:50002
+            #DEBUG: "*"
+        restart: on-failure
+        ports:
+            - "3002:3002"
+        stop_grace_period: 30s
+        networks:
+            net:
+                ipv4_address: 10.254.2.9
 
 networks:
     net:
