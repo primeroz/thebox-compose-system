@@ -13,4 +13,4 @@ FROM node:14-alpine
 WORKDIR /workspace
 USER node
 COPY --from=builder /workspace .
-CMD npm start
+CMD npm run
