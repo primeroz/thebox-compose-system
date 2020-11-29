@@ -1,0 +1,7 @@
+masterPassword: thunderhub-$2a$12$QWC3h2Rs/ZX5ncpSsreu9OXsJBPoIVz9uEA5rguph2vmfJuyKDzSu
+accounts:
+  - name: Account 1
+    serverUrl: '10.254.2.3:10009'
+    macaroonPath: /data/lnd/data/chain/bitcoin/mainnet/admin.macaroon
+    certificatePath: /data/lnd/tls.cert
+    password: thunderhub-$2a$12$JEpBW.QvPdOXuqrUhkNDg.OzVcxnm8FVyD3BVbX5jzMlj6WV7P9OS

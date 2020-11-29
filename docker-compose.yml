@@ -247,6 +247,30 @@ services:
         networks:
             net:
                 ipv4_address: 10.254.2.10
+    thunderhub:
+        image: apotdevin/thunderhub:v0.10.5
+        container_name: thunderhub
+        depends_on:
+            - tor
+            - lnd
+        volumes:
+            - /srv/lnd:/data/lnd:ro
+            - ${PWD}/thunderhub:/data/thunderhub
+        environment:
+            LOG_LEVEL: info
+            THEME: dark
+            CURRENCY: sat
+            FETCH_PRICES: "true"
+            FETCH_FEES: "true"
+            DISABLE_LINKS: "false"
+            DISABLE_LNMARKETS: "false"
+            NO_VERSION_CHECK: "false"
+            ACCOUNT_CONFIG_PATH: /data/thunderhub/accounts.yaml
+        ports:
+            - 3000:3000
+        networks:
+            net:
+                ipv4_address: 10.254.2.11
 
 networks:
     net:

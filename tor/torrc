@@ -29,26 +29,26 @@ CookieAuthFileGroupReadable 1
 #HiddenServiceDir /srv/tor/lnd9735
 #HiddenServiceVersion 3
 #HiddenServicePort 9735 127.0.0.1:9735
-#
-## Hidden Service for LND RPC
-#HiddenServiceDir /srv/tor/lndrpc10009/
-#HiddenServiceVersion 3
-#HiddenServicePort 10009 127.0.0.1:10009
-#
-## Hidden Service for LND RPC (v2Fallback)
-#HiddenServiceDir /srv/tor/lndrpc10009fallback/
-#HiddenServiceVersion 2
-#HiddenServicePort 10009 127.0.0.1:10009
-#
-## Hidden Service for LND REST
-#HiddenServiceDir /srv/tor/lndrest8080/
-#HiddenServiceVersion 3
-#HiddenServicePort 8080 127.0.0.1:8080
-#
-## Hidden Service for LND REST (v2Fallback)
-#HiddenServiceDir /srv/tor/lndrest8080fallback/
-#HiddenServiceVersion 2
-#HiddenServicePort 8080 127.0.0.1:8080
+
+# Hidden Service for LND RPC
+HiddenServiceDir /srv/tor/lndrpc10009/
+HiddenServiceVersion 3
+HiddenServicePort 10009 10.254.2.3:10009
+
+# Hidden Service for LND RPC (v2Fallback)
+HiddenServiceDir /srv/tor/lndrpc10009fallback/
+HiddenServiceVersion 2
+HiddenServicePort 10009 10.254.2.3:10009
+
+# Hidden Service for LND REST
+HiddenServiceDir /srv/tor/lndrest8080/
+HiddenServiceVersion 3
+HiddenServicePort 8080 10.254.2.3:8080
+
+# Hidden Service for LND REST (v2Fallback)
+HiddenServiceDir /srv/tor/lndrest8080fallback/
+HiddenServiceVersion 2
+HiddenServicePort 8080 10.254.2.3:8080
 
 # Hidden Service for electrs
 HiddenServiceDir /srv/tor/electrs
