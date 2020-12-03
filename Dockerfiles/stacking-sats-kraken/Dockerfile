@@ -9,8 +9,26 @@ USER node
 
 RUN npm install
 
+FROM golang:1.15-alpine as simplepush
+
+WORKDIR /simplepush
+RUN apk add --no-cache git make gcc musl-dev
+RUN git clone --branch v0.3 https://github.com/rck/simplepush.git
+
+RUN cd simplepush && \
+    go mod init simplepush && \
+    make
+
 FROM node:14-alpine
 WORKDIR /workspace
-USER node
+
+RUN apk add --no-cache bash
+
 COPY --from=builder /workspace .
-CMD npm run
+COPY --from=simplepush /simplepush/simplepush/simplepush /usr/local/bin/simplepush
+
+COPY scripts/* /usr/local/bin/
+RUN chmod a+x /usr/local/bin/*
+
+USER node
+CMD ["npm", "run"]

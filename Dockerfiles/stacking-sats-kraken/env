@@ -1,0 +1,19 @@
+# used to authenticate with Kraken
+KRAKEN_API_KEY="APIKEY"
+KRAKEN_API_SECRET="APISECRET"
+
+# used for buying
+KRAKEN_API_FIAT=EUR
+KRAKEN_BUY_AMOUNT=65
+
+# used for withdrawal
+KRAKEN_MAX_REL_FEE=0.5
+KRAKEN_WITHDRAW_KEY="descriptionOfWithdrawalAddress"
+
+# remove this line after verifying everything works
+KRAKEN_DRY_RUN_PLACE_NO_ORDER=1
+
+## SimplePush
+SP_PASSWORD=PASSWORD
+SP_SALT=SALT
+SP_ID=KEY

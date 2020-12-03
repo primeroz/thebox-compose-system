@@ -1,0 +1,14 @@
+[Unit]
+Description=Stacksats on Kraken
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStartPre=-/usr/bin/docker kill stacksats
+ExecStartPre=-/usr/bin/docker rm stacksats
+ExecStart=/usr/bin/docker run --rm --name stacksats --env-file /etc/stackingsats/env  --entrypoint /usr/local/bin/stack.sh primeroz/stacking-sats-kraken:0.3.0-rc0
+
+# Only enable when i get a withdraw address
+#TimeoutStopSec=60
+#ExecStop=/usr/bin/docker run --rm --name stacksats --env-file /etc/stackingsats/env  --entrypoint /usr/local/bin/withdraw.sh primeroz/stacking-sats-kraken:0.3.0-rc0
