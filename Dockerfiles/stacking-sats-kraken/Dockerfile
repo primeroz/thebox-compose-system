@@ -7,7 +7,9 @@ RUN git clone --branch v0.3.0 https://github.com/dennisreimann/stacking-sats-kra
 RUN chown -R node .
 USER node
 
-RUN npm install
+COPY price-patch.diff /tmp/price-patch.diff
+RUN git apply /tmp/price-patch.diff && \
+    npm install
 
 FROM golang:1.15-alpine as simplepush
 

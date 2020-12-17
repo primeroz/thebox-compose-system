@@ -1,0 +1,13 @@
+diff --git a/commands/stack.js b/commands/stack.js
+index 7d223c6..082d4f5 100644
+--- a/commands/stack.js
++++ b/commands/stack.js
+@@ -14,7 +14,7 @@ module.exports = async (kraken, validate, getEnv) => {
+   const [{ a: [a], b: [b] }] = Object.values(ticker)
+   const ask = parseFloat(a)
+   const bid = parseFloat(b)
+-  const price = bid
++  const price = ask
+ 
+   // Calculate volume and adjust precision
+   const volume = (amount / price).toFixed(8)
