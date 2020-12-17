@@ -48,6 +48,81 @@ services:
                 ipv4_address: 10.254.2.2
         cap_drop:
             - ALL
+    #esplora:
+    #    #image: blockstream/esplora:latest
+    #    build:
+    #      context: ./Dockerfiles/esplora/
+    #    container_name: esplora
+    #    stop_grace_period: 5m
+    #    depends_on:
+    #        - tor
+    #        - bitcoin
+    #          #healthcheck: curl --fail http://10.254.2.7:4224/metrics
+    #    entrypoint:
+    #        - /srv/explorer/run.sh
+    #    command:
+    #        - bitcoin-mainnet
+    #        - explorer
+    #    cap_drop:
+    #        - ALL
+    #    ports:
+    #        - 51001:50001
+    #        - 58080:80
+    #    networks:
+    #        net:
+    #            ipv4_address: 10.254.2.12
+    #    environment:
+    #        NO_PRECACHE: "1"
+    #    volumes:
+    #        - /srv/bitcoind:/data:ro
+    #        - /srv/esplora:/db
+    #blockstream-electrs:
+    #    build:
+    #      context: ./Dockerfiles/blockstream-electrs/
+    #    container_name: blockstream-electrs
+    #    stop_grace_period: 5m
+    #    depends_on:
+    #        - tor
+    #        - bitcoin
+    #          #healthcheck: curl --fail http://10.254.2.7:4224/metrics
+    #    entrypoint:
+    #        - /usr/local/bin/electrs
+    #    command:
+    #        - --timestamp
+    #        - --db-dir
+    #        - /db
+    #        - --daemon-dir
+    #        - /bitcoin-data
+    #          #- --cookie
+    #          #- /bitcoin-data/.cookie
+    #        - --network
+    #        - mainnet
+    #        - --electrum-rpc-addr
+    #        - 0.0.0.0:50001
+    #        - --daemon-rpc-addr
+    #        - 10.254.2.2:8332
+    #        - --http-addr
+    #        - 0.0.0.0:3000
+    #        - --monitoring-addr
+    #        - 0.0.0.0:4224
+    #        - --tor-proxy
+    #        - 10.254.1.3:29050
+    #        - --jsonrpc-import
+    #        - --electrum-banner
+    #        - Craig Wright is a Fraud
+    #        - -vvvvvv
+    #    cap_drop:
+    #        - ALL
+    #    ports:
+    #        - 59001:50001
+    #        - 53000:3000
+    #        - 54224:4224
+    #    networks:
+    #        net:
+    #            ipv4_address: 10.254.2.13
+    #    volumes:
+    #        - /srv/bitcoind:/bitcoin-data:ro
+    #        - /srv/blockstreamelectrs:/db
     electrs:
         #image: getumbrel/electrs:v0.8.5
         image: primeroz/electrs:v0.8.6-rc0

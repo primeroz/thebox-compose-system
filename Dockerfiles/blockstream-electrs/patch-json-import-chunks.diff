@@ -1,0 +1,13 @@
+diff --git a/src/new_index/fetch.rs b/src/new_index/fetch.rs
+index 6b96514..7d7e22f 100644
+--- a/src/new_index/fetch.rs
++++ b/src/new_index/fetch.rs
+@@ -79,7 +79,7 @@ fn bitcoind_fetcher(
+     Ok(Fetcher::from(
+         chan.into_receiver(),
+         spawn_thread("bitcoind_fetcher", move || {
+-            for entries in new_headers.chunks(100) {
++            for entries in new_headers.chunks(10) {
+                 let blockhashes: Vec<BlockHash> = entries.iter().map(|e| *e.hash()).collect();
+                 let blocks = daemon
+                     .getblocks(&blockhashes)
